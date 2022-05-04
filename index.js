@@ -56,6 +56,7 @@ app.post('/uploadapi', (req, res) => {
                         path: "/files/" + filename
                     }
                 });
+                res.redirect("/files/" + filename)
             }
         });
     } else {

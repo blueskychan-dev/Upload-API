@@ -43,22 +43,14 @@ app.post('/uploadapi', (req, res) => {
         // using the mv() method to save the uploaded file in the
         // 'uploads' folder.
         file.mv('./uploads/' + filename, function (error) {
-            if (error) {
-                // console.log(error);
-                res.status(500).json({ message: 'Error while uploading file' });
-            } else {
-                res.json({
-                    message: 'File uploaded successfully',
-                    data: {
-                        name: filename,
-                        mimetype: file.mimetype,
-                        size: file.size,
-                        path: "/files/" + filename
-                    }
-                });
-                res.redirect("/files/" + filename)
-            }
-        });
+        if (error){
+res.status(500).end("Have error while upload file.")
+        }
+        else{
+            var path = filename.replace(/ /g, '%20');
+res.end("Your file been uploaded success!\nURL: " + req.protocol + '://' + req.get('host') + "/files/" + path)
+        }
+    })
     } else {
         return res.status(400).send({ message: 'No file uploaded' });
     }
